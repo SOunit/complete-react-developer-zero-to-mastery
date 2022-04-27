@@ -1,16 +1,39 @@
-import { Component, useState } from "react";
+import { useEffect, useState } from "react";
 import CardList from "./components/card-list/card-list.component";
 import SearchBox from "./components/search-box/search-box.component";
 import "./App.css";
 
 const App = () => {
   const [searchField, setSearchField] = useState("");
-  console.log(searchField);
+  const [monsters, setMonsters] = useState([]);
+  const [filteredMonsters, setFilteredMonsters] = useState(monsters);
 
   const onSearchChange = (event) => {
-    const searchField = event.target.value.toLocaleLowerCase();
-    setSearchField(searchField);
+    const searchFieldString = event.target.value.toLocaleLowerCase();
+    setSearchField(searchFieldString);
   };
+
+  useEffect(() => {
+    // side effect = impure function
+    // 1. effect outside scope
+    // 2. depends on outside factor
+
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => {
+        return response.json();
+      })
+      .then((user) => {
+        setMonsters(user);
+      });
+  }, []);
+
+  useEffect(() => {
+    const newFilteredMonsters = monsters.filter((monster) =>
+      monster.name.toLocaleLowerCase().includes(searchField)
+    );
+
+    setFilteredMonsters(newFilteredMonsters);
+  }, [monsters, searchField]);
 
   return (
     <div className="App">
@@ -20,7 +43,7 @@ const App = () => {
         placeholder={"search monsters"}
         className={"monsters-search-box"}
       />
-      {/* <CardList monsters={filteredMonsters} /> */}
+      <CardList monsters={filteredMonsters} />
     </div>
   );
 };
