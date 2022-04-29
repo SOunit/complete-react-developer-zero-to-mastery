@@ -1,4 +1,8 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import {
+  createUserDocumentFromAuth,
+  onAuthStateChangedListener,
+} from "../utils/firebase/firebase.utils";
 
 // 1. storage(context)
 // 2. provider
@@ -11,11 +15,26 @@ export const UserContext = createContext({
   setCurrentUser: () => null,
 });
 
-//
+// 2. provider
 export const UserProvider = ({ children }) => {
   // initial value for state
   const [currentUser, setCurrentUser] = useState(null);
   const value = { currentUser, setCurrentUser };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener((user) => {
+      if (user) {
+        createUserDocumentFromAuth(user);
+      } else {
+        setCurrentUser(user);
+      }
+      console.log(user);
+    });
+
+    // for avoid memory leak
+    // delete this observer when component will be unmount
+    return unsubscribe;
+  }, []);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
