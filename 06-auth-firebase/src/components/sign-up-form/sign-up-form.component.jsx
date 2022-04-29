@@ -15,11 +15,36 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
+  const resetFormField = () => {
+    setFormFields(defaultFormFields);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { user } = await createAuthUserWithEmailAndPassword(email, password);
-    const userDocRef = await createUserDocumentFromAuth(user);
-    console.log("userDocRef", userDocRef);
+
+    if (password !== confirmPassword) {
+      alert("passwords do not match");
+      return;
+    }
+
+    try {
+      const { user } = await createAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+      await createUserDocumentFromAuth(user, {
+        displayName,
+      });
+
+      resetFormField();
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        alert("Can not create user, email already in use");
+      } else {
+        console.log("user creation encountered an error", error);
+      }
+    }
   };
 
   const handleChange = (event) => {
