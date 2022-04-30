@@ -2,7 +2,6 @@
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
-  signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -47,12 +46,9 @@ export const createUserDocumentFromAuth = async (
 
   // reference
   const userDocRef = doc(db, "users", userAuth.uid);
-  console.log(userDocRef);
 
   // data
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot);
-  console.log(userSnapshot.exists());
 
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;

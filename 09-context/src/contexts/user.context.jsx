@@ -28,7 +28,6 @@ export const UserProvider = ({ children }) => {
       } else {
         setCurrentUser(user);
       }
-      console.log(user);
     });
 
     // for avoid memory leak
