@@ -5,6 +5,7 @@ export const BackgroundImage = styled.div`
   height: 100%;
   background-size: cover;
   background-position: center;
+  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
 `;
 
 export const DirectoryItemBodyContainer = styled.div`
@@ -24,6 +25,7 @@ export const DirectoryItemBodyContainer = styled.div`
     margin: 0 6px 0;
     font-size: 22px;
     color: #4a4a4a;
+    text-transform: uppercase;
   }
 
   p {
@@ -54,10 +56,6 @@ export const DirectoryItemContainer = styled.div`
     & ${DirectoryItemBodyContainer} {
       opacity: 0.9;
     }
-  }
-
-  &.large {
-    height: 380px;
   }
 
   &:first-child {
