@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
+import "./checkout.styles.scss";
 
 const Checkout = () => {
   const { cartItems, addItemToCart, removeItemFromCart, cartTotal } =
@@ -20,7 +21,7 @@ const Checkout = () => {
         return (
           <div key={id}>
             <img src={imageUrl} alt={`${name}`} />
-            <div>{name}</div>
+            <h2>{name}</h2>
             <div>
               <span onClick={() => removeItemHandler(cartItem)}>L</span>
               {quantity}
