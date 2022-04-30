@@ -1,22 +1,25 @@
 import { createContext, useState } from "react";
 
 const addCartItem = (cartItems, productToAdd) => {
-  const newCartItems = [...cartItems];
-
   // find if cartITems contains productToAdd
-  const itemIndex = newCartItems.findIndex(
+  const existingCartItem = cartItems.find(
     (item) => item.id === productToAdd.id
   );
 
   // if found increment quantity
-  if (itemIndex > 0 || itemIndex === 0) {
-    newCartItems[itemIndex].quantity++;
-  } else {
-    newCartItems.push({ ...productToAdd, quantity: 1 });
+  if (existingCartItem) {
+    // check all items
+    return cartItems.map((cartItem) =>
+      cartItem.id === productToAdd.id
+        ? // if match, update quantity
+          { ...cartItem, quantity: cartItem.quantity + 1 }
+        : // no match, no update
+          cartItem
+    );
   }
 
   // return new array
-  return newCartItems;
+  return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
 export const CartContext = createContext({
