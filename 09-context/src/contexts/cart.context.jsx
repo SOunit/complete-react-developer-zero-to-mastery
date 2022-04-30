@@ -38,10 +38,11 @@ const removeCartItem = (cartItems, productToRemove) => {
   );
 };
 
-const deleteCartItem = (cartItems, productToRemove) => {
-  return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
+const clearCartItem = (cartItems, cartItemToClear) => {
+  return cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 };
 
+// for autocompletion
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
@@ -63,8 +64,8 @@ export const CartProvider = ({ children }) => {
     setCartItems(removeCartItem(cartItems, cartItemToRemove));
   };
 
-  const deleteItemFromCart = (cartItemToDelete) => {
-    setCartItems(deleteCartItem(cartItems, cartItemToDelete));
+  const clearItemFromCart = (cartItemToClear) => {
+    setCartItems(clearCartItem(cartItems, cartItemToClear));
   };
 
   useEffect(() => {
@@ -89,7 +90,7 @@ export const CartProvider = ({ children }) => {
     cartCount,
     removeItemFromCart,
     cartTotal,
-    deleteItemFromCart,
+    clearItemFromCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
