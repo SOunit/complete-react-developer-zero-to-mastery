@@ -2,12 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import App from "./App";
 
-import "./index.scss";
 import { UserProvider } from "./contexts/user.context";
 import { ProductsProvider } from "./contexts/products.context";
+import { CartDropDownProvider } from "./contexts/cart-dropdown.context";
+
+import "./index.scss";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,7 +17,9 @@ root.render(
     <BrowserRouter>
       <UserProvider>
         <ProductsProvider>
-          <App />
+          <CartDropDownProvider>
+            <App />
+          </CartDropDownProvider>
         </ProductsProvider>
       </UserProvider>
     </BrowserRouter>
