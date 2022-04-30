@@ -7,7 +7,7 @@ import App from "./App";
 
 import { UserProvider } from "./contexts/user.context";
 import { ProductsProvider } from "./contexts/products.context";
-import { CartDropDownProvider } from "./contexts/cart-dropdown.context";
+import { CartProvider } from "./contexts/cart.context";
 
 import "./index.scss";
 
@@ -17,9 +17,9 @@ root.render(
     <BrowserRouter>
       <UserProvider>
         <ProductsProvider>
-          <CartDropDownProvider>
+          <CartProvider>
             <App />
-          </CartDropDownProvider>
+          </CartProvider>
         </ProductsProvider>
       </UserProvider>
     </BrowserRouter>
