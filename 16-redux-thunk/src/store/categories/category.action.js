@@ -14,6 +14,7 @@ export const fetchCategoriesSuccess = (categoriesArray) =>
 export const fetchCategoriesFailed = (error) =>
   createAction(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILED, error);
 
+// xxxAsync is recommended naming convention by react-redux
 export const fetchCategoriesAsync = () => async (dispatch) => {
   dispatch(fetchCategoriesStart());
 
