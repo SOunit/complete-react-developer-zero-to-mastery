@@ -1,38 +1,44 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+
 import CardList from "./components/card-list/card-list.component";
 import SearchBox from "./components/search-box/search-box.component";
+import { getData } from "./utils/data.utils";
+
 import "./App.css";
+
+export type Monster = {
+  id: string;
+  name: string;
+  email: string;
+};
 
 const App = () => {
   const [searchField, setSearchField] = useState("");
-  const [monsters, setMonsters] = useState([]);
+  const [monsters, setMonsters] = useState<Monster[]>([]);
   const [filteredMonsters, setFilteredMonsters] = useState(monsters);
   const [title, setTitle] = useState("");
 
   console.log("render");
 
-  const onSearchChange = (event) => {
+  const onSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchFieldString = event.target.value.toLocaleLowerCase();
     setSearchField(searchFieldString);
   };
 
-  const onTitleChange = (event) => {
+  const onTitleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const titleString = event.target.value;
     setTitle(titleString);
   };
 
   useEffect(() => {
-    // side effect = impure function
-    // 1. effect outside scope
-    // 2. depends on outside factor
+    const fetchUsers = async () => {
+      const users = await getData<Monster[]>(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      setMonsters(users);
+    };
 
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => {
-        return response.json();
-      })
-      .then((user) => {
-        setMonsters(user);
-      });
+    fetchUsers();
   }, []);
 
   useEffect(() => {
