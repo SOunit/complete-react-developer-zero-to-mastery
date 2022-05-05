@@ -9,7 +9,7 @@ import {
   NavLinks,
   LogoContainer,
 } from "./navigation.styles.jsx";
-import { selectCurrentUser } from "../../store/user/user.selector.js";
+import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectIsCartOpen } from "../../store/cart/cart.selector";
 import { signOutStart } from "../../store/user/user.action";
 
