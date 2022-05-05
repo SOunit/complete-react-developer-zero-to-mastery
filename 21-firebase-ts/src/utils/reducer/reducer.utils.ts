@@ -7,15 +7,22 @@ type Matchable<AC extends () => AnyAction> = AC & {
   match(action: AnyAction): action is ReturnType<AC>;
 };
 
-// overload
+// Overload
+// ActionCreator is a function with no argument pattern
+// AnyAction at least has type: string
 export function withMatcher<AC extends () => AnyAction & { type: string }>(
   actionCreator: AC
 ): Matchable<AC>;
 
+// Overload
+// with arguments
 export function withMatcher<
   AC extends (...args: any[]) => AnyAction & { type: string }
 >(actionCreator: AC): Matchable<AC>;
 
+// Function is ok because Overload already check type
+// 1. extract type
+// 2. add match function
 export function withMatcher(actionCreator: Function) {
   const type = actionCreator().type;
   return Object.assign(actionCreator, {
