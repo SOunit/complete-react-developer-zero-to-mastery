@@ -12,6 +12,7 @@
     "@types/node": "^17.0.31",
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.3",
+    "@types/react-redux": "^7.1.24",
     "dotenv": "^16.0.0",
     "firebase": "^9.6.11",
     "netlify": "^11.0.1",
@@ -34,6 +35,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "netlify dev",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -55,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/redux-logger": "^3.0.9"
   }
 }
