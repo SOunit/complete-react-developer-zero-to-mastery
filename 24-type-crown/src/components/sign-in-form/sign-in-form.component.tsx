@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { AuthError, AuthErrorCodes } from "firebase/auth";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   emailSignInStart,
@@ -7,8 +8,9 @@ import {
 
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
+import { ButtonContainer, SignInContainer } from "./sign-in-form.style";
 
-import "./sign-in-form.style.scss";
+import "./sign-in-form.style.tsx";
 
 const defaultFormFields = {
   email: "",
@@ -28,23 +30,23 @@ const SignInForm = () => {
     dispatch(googleSignInStart());
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
       dispatch(emailSignInStart(email, password));
       resetFormField();
     } catch (error) {
-      switch (error.code) {
-        case "auth/user-not-found":
+      switch ((error as AuthError).code) {
+        case AuthErrorCodes.USER_DELETED:
           alert("no user associated with this email");
           break;
-        case "auth/wrong-password":
+        case AuthErrorCodes.INVALID_PASSWORD:
           alert("incorrect password for email");
           break;
         default:
@@ -54,7 +56,7 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="sign-in-container">
+    <SignInContainer>
       <h2>I already have an account</h2>
       <span>Sign in with your email and password</span>
       <form onSubmit={handleSubmit}>
@@ -75,7 +77,7 @@ const SignInForm = () => {
           name="password"
           value={password}
         />
-        <div className="buttons-container">
+        <ButtonContainer>
           <Button type="submit">sign in</Button>
           <Button
             type="button"
@@ -84,9 +86,9 @@ const SignInForm = () => {
           >
             Google sign in
           </Button>
-        </div>
+        </ButtonContainer>
       </form>
-    </div>
+    </SignInContainer>
   );
 };
 
